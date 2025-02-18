@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<div class="lg:flex lg:justify-around mt-8">
+  <!-- Left block -->
+  <div>
+   <form action="">
+      <div class="border-2 p-4 shadow-xl">
+         <!-- left block up -->
+         <div class="">
+            <input type="text" placeholder="Name..." require name="name" class="mr-2 rounded-lg">
+            <input type="text" placeholder="Email..." require name="email " class="rounded-lg">
+         </div>
+         <hr class="my-4">
+         <p class="my-4">Shipping Information:</p>
+         <hr class="my-4">
+         <div>
+            <div class="flex">
+               <input type="text" placeholder="Address..." class="mr-2 rounded-lg mb-2">
+               <input type="text" placeholder="City..." class="rounded-lg mb-2">
+            </div>
+            <div class="flex">
+               <input type="text" placeholder="State..." name="state" class="mr-2 rounded-lg mb-2">
+               <input type="text" placeholder="Zip code..." name="zipcode" class="rounded-lg mb-2" >
+            </div>
+         </div>
+         <div class=" bg-green-500 lg:justify-center lg:items-center lg:flex rounded-lg my-4">
+            <input type="submit" value="Continue" class="text-xl py-1">
+         </div>
+      </div>
+   </form>
+  </div>
+  <!-- right  block -->
+  <div class="border-2 p-4 shadow-xl">
+   <div>
+     <a href="{% url 'cart' %}" class="hover:bg-green-600 underline"
+       >&#x2190; Back to Cart</a
+     >
+     <hr class="my-2" />
+     <h3 class="my-4">Order Summary</h3>
+     <hr />
+
+     <!-- ----------------------------------------------------------------------------------------------------- -->
+     <div class="">
+       <table class="table">
+         <tbody>
+           <!-- row 1 -->
+           <tr>
+             <td>
+               <div class="flex items-center gap-3">
+                 <div class="avatar">
+                   <div class="mask mask-squircle h-12 w-12">
+                     <img
+                       src="https://img.daisyui.com/images/profile/demo/2@94.webp"
+                       alt="Avatar Tailwind CSS Component"
+                     />
+                   </div>
+                 </div>
+                 <div>
+                   <div class="font-bold">Product name</div>
+                 </div>
+               </div>
+             </td>
+             <td>
+              
+               <span class="badge badge-ghost badge-sm"
+                 >Price</span
+               >
+             </td>
+             <td></td>
+             <th>
+               <span>Quantity</span>
+             </th>
+           </tr>
+         </tbody>
+       </table>
+     </div>
+     <h5>Item: 6</h5>
+     <h5>Total: $5</h5>
+   </div>
+ </div>
+</div>
+
+{% endblock %}
