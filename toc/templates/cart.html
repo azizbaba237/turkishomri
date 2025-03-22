@@ -1,20 +1,18 @@
-{% extends 'base.html' %}
-{% load static %} 
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
-<div class=" mt-4 lg:mx-8">
-  <div class=" " >
-    <div class="mb-4 " >
-         <a href="{% url 'index' %} " class="border-2" >Continue Shopping</a>
-     
-      <hr class="mt-6">
+<div class="mt-4 lg:mx-8">
+  <div class=" ">
+    <div class="mb-4">
+      <a href="{% url 'index' %} " class="border-2">Continue Shopping</a>
+
+      <hr class="mt-6" />
       <table class="table border-b-2">
         <tr>
           <th>
-            <h5>Items : <strong> {{order.get_cart_items}} </strong></h5>
+            <h5>Items : <strong> {{ order.get_cart_items }} </strong></h5>
           </th>
           <th>
-            <h5>Total : <strong> {{order.get_cart_total}} </strong></h5>
+            <h5>Total : <strong> {{order.get_cart_total|floatformat:2}} </strong></h5>
           </th>
           <th>
             <a
@@ -42,7 +40,7 @@
             <th>Total</th>
           </tr>
         </thead>
-        
+
         <!-- Table body -->
 
         {% for item in items %}
@@ -55,47 +53,80 @@
                   <div class="mask mask-squircle h-12 w-12">
                     <img
                       src="{% static 'images/placeholderimage.png' %}"
-                      alt="Avatar Tailwind CSS Component" />
+                      alt="Avatar Tailwind CSS Component"
+                    />
                   </div>
                 </div>
                 <div>
-                  <div class="font-bold"> {{ item.product.name }} </div>
+                  <div class="font-bold">{{ item.product.name }}</div>
                 </div>
               </div>
             </td>
             <!-- Price -->
             <td>
-              <span class="badge badge-ghost badge-sm">{{ item.product.price|floatformat:2 }} Fcfa</span>
+              <span class="badge badge-ghost badge-sm"
+                >{{ item.product.price|floatformat:2 }} Fcfa</span
+              >
             </td>
             <!-- Quantity -->
             <td>
-               <!-- Dans votre template Django icon haut et bas -->
-               <div class="flex items-center space-x-2">
-                  <span class="">x {{item.quantity}} </span>
-                  <div class="flex flex-col items-center">
+              <!-- Dans votre template Django icon haut et bas -->
+              <div class="flex items-center space-x-2">
+                <span class="">x {{item.quantity}} </span>
+                <div class="flex flex-col items-center">
                   <!-- Flèche vers le haut -->
-                  <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  <svg
+                    class="w-4 h-4 text-gray-700 update-cart"
+                    data-product="{{item.product.id}}"
+                    data-action="add"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 15l7-7 7 7"
+                    ></path>
                   </svg>
                   <!-- Flèche vers le bas -->
-                  <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  <svg
+                    class="w-4 h-4 text-gray-700 update-cart"
+                    data-product="{{item.product.id}}"
+                    data-action="remove"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
                   </svg>
-                  </div>
-               </div>
+                </div>
+              </div>
             </td>
-            
+
             <!-- Total -->
             <th>
-              <span>{{order.get_cart_total}} Fcfa</span>
+              <span>{{item.get_total|floatformat:2}} Fcfa</span>
             </th>
+          </tr>
+          <!-- lorsqu'il n y rien dans le panier  -->
+          {% empty %}
+          <tr>
+            <td colspan="4">Votre panier est vide.</td>
           </tr>
         </tbody>
         {% endfor %}
         <!-- foot -->
       </table>
     </div>
-    
   </div>
 </div>
 
