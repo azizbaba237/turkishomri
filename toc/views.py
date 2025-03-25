@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+from django.views.generic import ListView
+from .models import CarouselItem
 import datetime
 import json
 
@@ -10,11 +12,14 @@ import json
 def index(request):
     data = cartData(request)
     cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
+    # order = data['order']
+    # items = data['items']
+    
+    # Récupérer les items du carousel
+    carousel_items = CarouselItem.objects.filter(is_active=True).order_by('order')
         
     products = Product.objects.all()
-    context = {'products':products, 'cartItems':cartItems}
+    context = {'products':products, 'cartItems':cartItems, 'carousel_items':carousel_items}
     return render(request, 'index.html', context)
 
 
@@ -114,3 +119,12 @@ def processOrder(request):
         )
     
     return JsonResponse('Payement subimted', safe=False)
+
+#View for caroussel 
+class HomeView(ListView):
+    model = CarouselItem
+    template_name = "home.html"
+    context_object_name = "carousel_items"
+    
+    def get_queryset(self):
+        return CarouselItem.objects.filter(is_active=True).order_by("order")

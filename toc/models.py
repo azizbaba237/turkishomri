@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -95,3 +96,19 @@ class ShippingAddress(models.Model):
     
     def __str__(self):
         return self.address
+    
+# Caroussel header 
+class CarouselItem(models.Model):
+    title = models.CharField(_("Titre"), max_length=200)
+    description = models.TextField(_("Description"))
+    image = models.ImageField(_("Image"), upload_to="carousel/")
+    order = models.PositiveIntegerField(_("Ordre"), default=0)
+    is_active = models.BooleanField(_("Actif"), default=True)
+    
+    class Meta:
+        ordering = ["order"]
+        verbose_name = _("Élément du carousel")
+        verbose_name_plural = _("Éléments du carousel")
+    
+    def __str__(self):
+        return self.title
