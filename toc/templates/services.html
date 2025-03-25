@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center text-blue-700 mb-12">Nos Services</h1>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Produits Sanitaires -->
+        <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center justify-center mb-4">
+                <svg class="w-16 h-16 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold text-center mb-4 text-gray-800">Produits Sanitaires</h2>
+            <p class="text-gray-600 text-center">
+                Vente de produits sanitaires de haute qualité, adaptés à tous vos besoins d'hygiène et de nettoyage.
+            </p>
+        </div>
+
+        <!-- Électricité -->
+        <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center justify-center mb-4">
+                <svg class="w-16 h-16 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold text-center mb-4 text-gray-800">Électricité</h2>
+            <p class="text-gray-600 text-center">
+                Solutions électriques complètes, de l'installation à la maintenance, avec des produits innovants et sécurisés.
+            </p>
+        </div>
+
+        <!-- Vitre et Miroir -->
+        <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center justify-center mb-4">
+                <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 01-4.176-3.97L9.342 4.177a2 2 0 00-1.53-1.348L5.64 2.26a2 2 0 00-2.379 1.977l.349 3.697a13.026 13.026 0 005.571 8.847l3.958 3.178a2 2 0 002.604-.36l2.296-2.741a2 2 0 00.202-2.248z"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold text-center mb-4 text-gray-800">Vitre et Miroir</h2>
+            <p class="text-gray-600 text-center">
+                Installation et vente de vitres et miroirs sur mesure, avec un service de qualité et de précision.
+            </p>
+        </div>
+
+        <!-- Suivi de Chantier -->
+        <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow">
+            <div class="flex items-center justify-center mb-4">
+                <svg class="w-16 h-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold text-center mb-4 text-gray-800">Suivi de Chantier</h2>
+            <p class="text-gray-600 text-center">
+                Gestion et supervision complètes de vos projets, avec un suivi personnalisé et des rapports détaillés.
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-12 text-center">
+        <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+            Contactez-nous pour plus d'informations
+        </a>
+    </div>
+</div>
+{% endblock %}

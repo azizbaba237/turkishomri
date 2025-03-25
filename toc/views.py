@@ -24,7 +24,6 @@ def index(request):
 
 
 
-
 #  Cart view 
 def cart(request):
     data = cartData(request)
@@ -128,3 +127,66 @@ class HomeView(ListView):
     
     def get_queryset(self):
         return CarouselItem.objects.filter(is_active=True).order_by("order")
+    
+
+#Services View
+def services(request):
+    """
+    Vue pour afficher la liste des services
+    """
+    services = Service.objects.filter(is_active=True)
+    context = {
+        'title': 'Nos Services',
+        'services': services
+    }
+    return render(request, 'services.html', context)
+
+# About view
+def about(request):
+    """
+    Vue pour la page À Propos
+    """
+    context = {
+        'title': 'À Propos de Nous',
+    }
+    return render(request, 'about.html', context)
+
+# Contact
+def contact(request):
+    """
+    Vue pour la page de Contact avec envoi d'email
+    """
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone', 'Non spécifié')
+        message = request.POST.get('message')
+
+        # Préparer le corps de l'email
+        email_body = f"""
+        Nouveau message de contact :
+        
+        Nom : {name}
+        Email : {email}
+        Téléphone : {phone}
+
+        Message :
+        {message}
+        """
+
+        try:
+            # Envoyer l'email
+            send_mail(
+                f'Nouveau contact de {name}',  # Sujet
+                email_body,  # Message
+                email,  # Email de l'expéditeur
+                ['contact@votreentreprise.com'],  # Liste des destinataires
+                fail_silently=False,
+            )
+            messages.success(request, 'Votre message a été envoyé avec succès !')
+        except Exception as e:
+            messages.error(request, 'Une erreur est survenue lors de l\'envoi du message.')
+        
+        return redirect('contact')
+
+    return render(request, 'contact.html')

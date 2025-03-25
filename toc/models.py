@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
+
 # Create your models here.
 
 # Customer models 
@@ -112,3 +113,46 @@ class CarouselItem(models.Model):
     
     def __str__(self):
         return self.title
+    
+# Pour la gestion des services 
+class Service(models.Model):
+    """
+    Modèle pour gérer les services de l'entreprise
+    """
+    name = models.CharField(
+        _('Nom du service'), 
+        max_length=100, 
+        unique=True
+    )
+    description = models.TextField(
+        _('Description'), 
+        blank=True, 
+        null=True
+    )
+    icon = models.CharField(
+        _('Icône'), 
+        max_length=50, 
+        blank=True, 
+        null=True, 
+        help_text=_('Nom de la classe d\'icône (ex: fas fa-tools)')
+    )
+    is_active = models.BooleanField(
+        _('Actif'), 
+        default=True
+    )
+    created_at = models.DateTimeField(
+        _('Date de création'), 
+        auto_now_add=True
+    )
+    updated_at = models.DateTimeField(
+        _('Dernière mise à jour'), 
+        auto_now=True
+    )
+
+    class Meta:
+        verbose_name = _('Service')
+        verbose_name_plural = _('Services')
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
