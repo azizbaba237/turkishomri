@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import CarouselItem
-from .models import Service
+from .models import Services
 from .models import *
 
 # Register your models here.
@@ -19,13 +19,25 @@ class CarouselItemAdmin(admin.ModelAdmin):
     list_filter = ("is_active",)
     
 # Services
-@admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
+@admin.register(Services)
+class Services(admin.ModelAdmin):
     """
     Configuration de l'administration pour le modèle Service
     """
-    list_display = ('name', 'is_active', 'created_at', 'updated_at')
-    list_filter = ('is_active', 'created_at')
-    search_fields = ('name', 'description')
-    list_editable = ('is_active',)
+    list_display = (
+        'titre', 
+        'categorie', 
+        'prix', 
+        'actif', 
+        'created_at'
+    )
+    list_filter = (
+        'categorie', 
+        'actif'
+    )
+    search_fields = (
+        'titre', 
+        'description'
+    )
+    list_editable = ('actif',)
     readonly_fields = ('created_at', 'updated_at')

@@ -115,30 +115,47 @@ class CarouselItem(models.Model):
         return self.title
     
 # Pour la gestion des services 
-class Service(models.Model):
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+class Services(models.Model):
     """
-    Modèle pour gérer les services de l'entreprise
+    Modèle pour les services de l'entreprise
     """
-    name = models.CharField(
-        _('Nom du service'), 
-        max_length=100, 
-        unique=True
+    CATEGORIES = [
+        ('sanitaire', _('Produits Sanitaires')),
+        ('electricite', _('Électricité')),
+        ('vitrerie', _('Vitre et Miroir')),
+        ('suivi_chantier', _('Suivi de Chantier')),
+    ]
+
+    titre = models.CharField(
+        _('Titre du service'), 
+        max_length=200, 
+        help_text=_('Nom descriptif du service')
     )
     description = models.TextField(
         _('Description'), 
-        blank=True, 
-        null=True
+        help_text=_('Description détaillée du service')
     )
-    icon = models.CharField(
-        _('Icône'), 
+    categorie = models.CharField(
+        _('Catégorie'), 
         max_length=50, 
-        blank=True, 
-        null=True, 
-        help_text=_('Nom de la classe d\'icône (ex: fas fa-tools)')
+        choices=CATEGORIES,
+        help_text=_('Catégorie à laquelle appartient le service')
     )
-    is_active = models.BooleanField(
-        _('Actif'), 
-        default=True
+    prix = models.DecimalField(
+        _('Prix'), 
+        max_digits=10, 
+        decimal_places=2, 
+        null=True, 
+        blank=True,
+        help_text=_('Prix du service (optionnel)')
+    )
+    actif = models.BooleanField(
+        _('Service actif'), 
+        default=True,
+        help_text=_('Indique si le service est actuellement proposé')
     )
     created_at = models.DateTimeField(
         _('Date de création'), 
@@ -152,7 +169,7 @@ class Service(models.Model):
     class Meta:
         verbose_name = _('Service')
         verbose_name_plural = _('Services')
-        ordering = ['name']
+        ordering = ['titre']
 
     def __str__(self):
-        return self.name
+        return f"{self.titre} ({self.get_categorie_display()})"

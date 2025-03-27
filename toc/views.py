@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
@@ -6,6 +6,10 @@ from django.views.generic import ListView
 from .models import CarouselItem
 import datetime
 import json
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+from django import forms
 
 
 # Index for all like store 
@@ -132,13 +136,14 @@ class HomeView(ListView):
 #Services View
 def services(request):
     """
-    Vue pour afficher la liste des services
+    Vue pour afficher tous les services actifs
     """
-    services = Service.objects.filter(is_active=True)
+    # Récupère tous les services actifs, triés par catégorie
+    services = Services.objects.filter(actif=True).order_by('categorie')
     context = {
-        'title': 'Nos Services',
         'services': services
     }
+    
     return render(request, 'services.html', context)
 
 # About view
@@ -152,41 +157,79 @@ def about(request):
     return render(request, 'about.html', context)
 
 # Contact
+class ContactForm(forms.Form):
+    """
+    Formulaire de contact personnalisé
+    """
+    nom = forms.CharField(
+        label='Votre Nom', 
+        max_length=100, 
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-3 py-2 border rounded-md',
+            'placeholder': 'Votre nom complet'
+        })
+    )
+    email = forms.EmailField(
+        label='Votre Email', 
+        widget=forms.EmailInput(attrs={
+            'class': 'w-full px-3 py-2 border rounded-md',
+            'placeholder': 'votre.email@exemple.com'
+        })
+    )
+    sujet = forms.CharField(
+        label='Sujet', 
+        max_length=200, 
+        widget=forms.TextInput(attrs={
+            'class': 'w-full px-3 py-2 border rounded-md',
+            'placeholder': 'Objet de votre message'
+        })
+    )
+    message = forms.CharField(
+        label='Votre Message', 
+        widget=forms.Textarea(attrs={
+            'class': 'w-full px-3 py-2 border rounded-md h-32',
+            'placeholder': 'Détaillez votre demande...'
+        })
+    )
+
 def contact(request):
     """
-    Vue pour la page de Contact avec envoi d'email
+    Vue pour la page de contact
     """
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone', 'Non spécifié')
-        message = request.POST.get('message')
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Récupération des données du formulaire
+            nom = form.cleaned_data['nom']
+            email = form.cleaned_data['email']
+            sujet = form.cleaned_data['sujet']
+            message = form.cleaned_data['message']
 
-        # Préparer le corps de l'email
-        email_body = f"""
-        Nouveau message de contact :
-        
-        Nom : {name}
-        Email : {email}
-        Téléphone : {phone}
+            # Composition du message complet
+            message_complet = f"""
+            Nouveau message de {nom} ({email})
 
-        Message :
-        {message}
-        """
+            Sujet: {sujet}
 
-        try:
-            # Envoyer l'email
-            send_mail(
-                f'Nouveau contact de {name}',  # Sujet
-                email_body,  # Message
-                email,  # Email de l'expéditeur
-                ['contact@votreentreprise.com'],  # Liste des destinataires
-                fail_silently=False,
-            )
-            messages.success(request, 'Votre message a été envoyé avec succès !')
-        except Exception as e:
-            messages.error(request, 'Une erreur est survenue lors de l\'envoi du message.')
-        
-        return redirect('contact')
+            Message:
+            {message}
+            """
 
-    return render(request, 'contact.html')
+            try:
+                # Envoi de l'email
+                send_mail(
+                    f'Contact Web - {sujet}',
+                    message_complet,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.CONTACT_EMAIL],
+                    fail_silently=False,
+                )
+                messages.success(request, 'Votre message a été envoyé avec succès !')
+                return redirect('contact')
+            except Exception as e:
+                messages.error(request, 'Une erreur est survenue. Veuillez réessayer.')
+
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', {'form': form})

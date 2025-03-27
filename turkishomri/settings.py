@@ -141,10 +141,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configuration for sending emails
+# Configuration email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.votrehebergeur.com'
+DEFAULT_FROM_EMAIL = 'votre_email@exemple.com'
+CONTACT_EMAIL = 'contact@votre_entreprise.com'
+
+# Paramètres SMTP (à configurer selon votre hébergeur)
+EMAIL_HOST = 'smtp.exemple.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'votre_email@votreentreprise.com'
+EMAIL_HOST_USER = 'votre_utilisateur'
 EMAIL_HOST_PASSWORD = 'votre_mot_de_passe'
+EMAIL_USE_TLS = True
